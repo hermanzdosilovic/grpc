@@ -4633,15 +4633,37 @@ endif (gRPC_BUILD_CODEGEN)
 
 endif (gRPC_BUILD_TESTS)
 
-add_library(grpc_plugin_support
-  src/compiler/cpp_generator.cc
-  src/compiler/csharp_generator.cc
-  src/compiler/node_generator.cc
-  src/compiler/objective_c_generator.cc
-  src/compiler/php_generator.cc
-  src/compiler/python_generator.cc
-  src/compiler/ruby_generator.cc
-)
+add_library(grpc_plugin_support src/compiler/cpp_generator.cc)
+
+option(gRPC_CSHARP_GENERATOR ON "Enable plugin support for C#")
+if(gRPC_CSHARP_GENERATOR)
+  target_sources(grpc_plugin_support PRIVATE src/compiler/csharp_generator.cc)
+endif()
+
+option(gRPC_NODE_GENERATOR ON "Enable plugin support for Node")
+if(gRPC_NODE_GENERATOR)
+  target_sources(grpc_plugin_support PRIVATE src/compiler/node_generator.cc)
+endif()
+
+option(gRPC_OBJECTIVE_C_GENERATOR ON "Enable plugin support for Objective-C")
+if(gRPC_OBJECTIVE_C_GENERATOR)
+  target_sources(grpc_plugin_support PRIVATE src/compiler/objective_c_generator.cc)
+endif()
+
+option(gRPC_PHP_GENERATOR ON "Enable plugin support for PHP")
+if(gRPC_PHP_GENERATOR)
+  target_sources(grpc_plugin_support PRIVATE src/compiler/php_generator.cc)
+endif()
+
+option(gRPC_PYTHON_GENERATOR ON "Enable plugin support for Python")
+if(gRPC_PYTHON_GENERATOR)
+  target_sources(grpc_plugin_support PRIVATE src/compiler/python_generator.cc)
+endif()
+
+option(gRPC_RUBY_GENERATOR ON "Enable plugin support for Ruby")
+if(gRPC_RUBY_GENERATOR)
+  target_sources(grpc_plugin_support PRIVATE src/compiler/ruby_generator.cc)
+endif()
 
 if(WIN32 AND MSVC)
   set_target_properties(grpc_plugin_support PROPERTIES COMPILE_PDB_NAME "grpc_plugin_support"
